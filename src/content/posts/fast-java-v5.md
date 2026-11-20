@@ -13,6 +13,8 @@ authors: [gabriel-darbord]
 
 [Checking FAST-Java against the Java Language Specification](/posts/fast-java-jls-compliance/) found more than missing constructs. The model could also hold programs that no Java compiler accepts, and it described the same text in different ways depending on where it stood. Fixes that kept every reader working went into v4 releases. The others change what a reader finds in the model, so they make a major version.
 
+v5 does not read more Java than v4.6.0: both import and export the same programs, as the checks below show. What changes is how the model says it. Each construct gets one entity of its own, and the model cannot hold what Java cannot write.
+
 ## The model holds what Java writes, and nothing else
 
 A model that can hold what Java cannot write is no help to an analysis, and lets a transformation build code that does not compile. v5 removes those possibilities wherever the JLS rules them out.
@@ -41,6 +43,7 @@ The other changes of this kind:
 - **An element-value pair is not an assignment.** `@A(x = 1)` names an element of `A` and assigns nothing. It is a `FASTJavaElementValuePair`. v4 read it as an assignment, which made its value an expression, though an annotation is not one.
 - **An element value is a constant.** javac's parser reads `@A(this)` and `@A(m())`, but JLS 9.7.1 requires a constant there and javac refuses both. The import refuses them too, with an error that names the rule.
 - **A permits clause holds type names.** JLS 8.1.6 writes only names after `permits`, without type arguments or annotations.
+- **A text block is a literal of its own.** It is a `FASTJavaTextBlock`, and its value is what stands between its two runs of three quotes, where v4 kept two of the quotes at each end.
 
 ## The same text, the same entity
 
@@ -72,15 +75,6 @@ flowchart LR
 | `for (var s : list)` | the inferred type |
 | `(var a) -> a` | the inferred type |
 | `void m(var p)` | a type named `var` |
-
-## What changes meaning, not how it is spelled
-
-The model keeps what makes a program behave differently, and leaves style out.
-
-- Parentheses are not modelled. The exporter writes back the ones that grouping needs, so `a - (b + c)` stays `a - (b + c)`.
-- An enum constant records whether it has a body, even an empty one, because `A { }` makes the constant an instance of an anonymous class.
-- A text block is a `FASTJavaTextBlock`. Its value is what stands between its two runs of three quotes, where v4 kept two of the quotes at each end.
-- A pair of brackets is an entity, so `new int @A [3]` keeps `@A` on the pair the source writes it on.
 
 ## Checked like v4
 
