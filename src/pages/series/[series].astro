@@ -1,0 +1,24 @@
+---
+import { type CollectionEntry, getEntry } from 'astro:content';
+import PostList from '../../components/PostList.astro';
+import Base from '../../layouts/Base.astro';
+import { getPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+	// From the posts rather than the series collection, which is empty until a post is in one.
+	const ids = new Set((await getPosts()).flatMap((post) => post.data.series?.id ?? []));
+	const series = await Promise.all([...ids].map((id) => getEntry('series', id)));
+	return series.map((entry) => ({ params: { series: entry!.id }, props: { series: entry! } }));
+}
+
+const { series } = Astro.props as { series: CollectionEntry<'series'> };
+const parts = (await getPosts((post) => post.data.series?.id === series.id)).sort(
+	(a, b) => a.data.part! - b.data.part!,
+);
+---
+
+<Base title={series.data.title} description={series.data.description}>
+	<h1>{series.data.title}</h1>
+	<p class="page-intro">{series.data.description}</p>
+	<PostList posts={parts} showPart />
+</Base>

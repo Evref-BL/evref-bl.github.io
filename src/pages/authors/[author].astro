@@ -1,0 +1,25 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import PostList from '../../components/PostList.astro';
+import Base from '../../layouts/Base.astro';
+import { getPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+	const authors = await getCollection('authors');
+	return authors.map((author) => ({ params: { author: author.id }, props: { author } }));
+}
+
+const { author } = Astro.props as { author: CollectionEntry<'authors'> };
+const posts = await getPosts((post) => post.data.authors.some((a) => a.id === author.id));
+const { name, github, url } = author.data;
+---
+
+<Base title={name} description={`Posts by ${name}.`}>
+	<h1>{name}</h1>
+	<p class="page-intro">
+		{github && <a href={`https://github.com/${github}`}>@{github} on GitHub</a>}
+		{github && url && ' · '}
+		{url && <a href={url}>{new URL(url).host}</a>}
+	</p>
+	<PostList posts={posts} />
+</Base>

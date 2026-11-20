@@ -1,0 +1,22 @@
+---
+import { GITHUB_URL, REPOSITORY_URL } from '../consts';
+---
+
+<footer>
+	<p>
+		Evref-BL · <a href={GITHUB_URL}>GitHub</a> · <a href="/rss.xml">RSS</a> · <a href="/llms.txt">For agents</a> · <a href={REPOSITORY_URL}>Source of this site</a>
+	</p>
+</footer>
+
+<style>
+	footer {
+		border-top: 1px solid var(--border);
+		color: var(--muted);
+		font-size: 0.9rem;
+		text-align: center;
+		padding: 1.5rem 1rem 2.5rem;
+	}
+	a {
+		color: inherit;
+	}
+</style>

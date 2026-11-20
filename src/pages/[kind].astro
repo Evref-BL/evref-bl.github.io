@@ -1,0 +1,25 @@
+---
+import PostList from '../components/PostList.astro';
+import { KIND_NAMES, KINDS, type Kind } from '../consts';
+import Base from '../layouts/Base.astro';
+import { getPosts } from '../lib/posts';
+
+export function getStaticPaths() {
+	return KIND_NAMES.map((kind) => ({ params: { kind: KINDS[kind].path }, props: { kind } }));
+}
+
+const { kind } = Astro.props as { kind: Kind };
+const posts = await getPosts((post) => post.data.kind === kind);
+const intros: Record<Kind, string> = {
+	guide: 'How to do something with our tools, step by step. Guides are kept up to date.',
+	experiment: 'What we tried, how we measured it, and what we found.',
+	project: 'What one of our projects does, why it exists and where it is going.',
+	news: 'Releases, talks, papers and other announcements.',
+};
+---
+
+<Base title={KINDS[kind].plural} description={intros[kind]}>
+	<h1>{KINDS[kind].plural}</h1>
+	<p class="page-intro">{intros[kind]}</p>
+	<PostList posts={posts} showKind={false} byYear />
+</Base>

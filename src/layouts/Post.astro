@@ -1,0 +1,228 @@
+---
+import { Image } from 'astro:assets';
+import { getEntries, getEntry } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+import KindLabel from '../components/KindLabel.astro';
+import Mermaid from '../components/Mermaid.astro';
+import SeriesNav from '../components/SeriesNav.astro';
+import TagList from '../components/TagList.astro';
+import { KINDS, REPOSITORY_URL } from '../consts';
+import { getPosts, markdownUrl, postUrl, type Post } from '../lib/posts';
+import Base from './Base.astro';
+
+interface Props {
+	post: Post;
+}
+
+const { post } = Astro.props;
+const { title, description, date, updated, kind, tags, cover, coverAlt, draft } = post.data;
+const authors = await getEntries(post.data.authors);
+const series = post.data.series && (await getEntry(post.data.series));
+const parts = series
+	? (await getPosts((other) => other.data.series?.id === series.id)).sort(
+			(a, b) => a.data.part! - b.data.part!,
+		)
+	: [];
+const index = parts.findIndex((part) => part.id === post.id);
+const previous = parts[index - 1];
+const next = parts[index + 1];
+---
+
+<Base title={title} description={description} image={cover} type="article">
+	<link slot="head" rel="alternate" type="text/markdown" href={markdownUrl(post)} />
+	<article
+		data-pagefind-body
+		data-pagefind-filter={`kind:${KINDS[kind].plural}`}
+		data-pagefind-meta={`date:${date.toISOString().slice(0, 10)}`}
+	>
+		<header>
+			<p class="meta">
+				<KindLabel kind={kind} />
+				<FormattedDate date={date} />
+				{draft && <span class="draft">Draft: not published</span>}
+			</p>
+			<h1>{title}</h1>
+			<p class="lead">{description}</p>
+			<p class="byline">
+				By{' '}
+				{
+					authors.map((author, i) => (
+						<>
+							{i > 0 && (i === authors.length - 1 ? ' and ' : ', ')}
+							<a href={`/authors/${author.id}/`}>{author.data.name}</a>
+						</>
+					))
+				}
+				{
+					updated && (
+						<span class="updated">
+							· Updated <FormattedDate date={updated} />
+						</span>
+					)
+				}
+			</p>
+			<TagList tags={tags} />
+			<p class="for-agents" data-pagefind-ignore>
+				<button type="button" class="copy-markdown" data-src={markdownUrl(post)}>
+					Copy as Markdown
+				</button>
+				<a href={markdownUrl(post)}>View as Markdown</a>
+			</p>
+		</header>
+
+		{cover && <Image class="cover" src={cover} alt={coverAlt!} width={1200} />}
+
+		{series && <SeriesNav series={series} parts={parts} current={post} />}
+
+		<div class="content">
+			<slot />
+		</div>
+
+		{
+			series && (previous || next) && (
+				<nav class="prev-next" aria-label="Series" data-pagefind-ignore>
+					{previous ? (
+						<a href={postUrl(previous)} class="prev">
+							<span>Previous</span>
+							{previous.data.title}
+						</a>
+					) : (
+						<span />
+					)}
+					{next && (
+						<a href={postUrl(next)} class="next">
+							<span>Next</span>
+							{next.data.title}
+						</a>
+					)}
+				</nav>
+			)
+		}
+	</article>
+
+	<Mermaid />
+
+	<p class="edit">
+		<a href={`${REPOSITORY_URL}/edit/main/${post.filePath}`}>Edit this post on GitHub</a>
+	</p>
+</Base>
+
+<script>
+	for (const button of document.querySelectorAll<HTMLButtonElement>('.copy-markdown')) {
+		const label = button.textContent;
+		button.addEventListener('click', async () => {
+			// The clipboard item takes the pending text, so the write happens inside the click,
+			// which Safari requires.
+			const text = fetch(button.dataset.src!)
+				.then((response) => response.text())
+				.then((markdown) => new Blob([markdown], { type: 'text/plain' }));
+			try {
+				await navigator.clipboard.write([new ClipboardItem({ 'text/plain': text })]);
+				button.textContent = 'Copied';
+			} catch {
+				button.textContent = 'Could not copy';
+			}
+			setTimeout(() => (button.textContent = label), 2000);
+		});
+	}
+</script>
+
+<style>
+	header {
+		margin-bottom: 2rem;
+	}
+	.meta {
+		display: flex;
+		gap: 0.75rem;
+		align-items: baseline;
+		margin: 0 0 0.5rem;
+		color: var(--muted);
+		font-size: 0.9rem;
+	}
+	h1 {
+		margin: 0 0 0.75rem;
+	}
+	.lead {
+		font-size: 1.2rem;
+		color: var(--muted);
+		margin: 0 0 1rem;
+	}
+	.byline {
+		margin: 0 0 0.75rem;
+		font-size: 0.95rem;
+		color: var(--muted);
+	}
+	.for-agents {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		margin: 1rem 0 0;
+		font-size: 0.85rem;
+	}
+	.for-agents a {
+		color: var(--muted);
+	}
+	.copy-markdown {
+		font: inherit;
+		color: var(--text);
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		padding: 0.25rem 0.7rem;
+		cursor: pointer;
+	}
+	.copy-markdown:hover {
+		border-color: var(--accent);
+	}
+	.draft {
+		color: var(--kind-news);
+		font-weight: 700;
+	}
+	.cover {
+		width: 100%;
+		border-radius: var(--radius);
+		margin-bottom: 2rem;
+	}
+	.content :global(img) {
+		border-radius: var(--radius);
+	}
+	.content :global(.expressive-code) {
+		margin: 1.5rem 0;
+	}
+	.content :global(h2[id]),
+	.content :global(h3[id]) {
+		scroll-margin-top: 1rem;
+	}
+	.prev-next {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: 3rem;
+	}
+	.prev-next a {
+		flex: 1;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		padding: 0.75rem 1rem;
+		text-decoration: none;
+		background: var(--surface);
+	}
+	.prev-next a:hover {
+		border-color: var(--accent);
+	}
+	.prev-next .next {
+		text-align: right;
+	}
+	.prev-next a span {
+		display: block;
+		font-size: 0.8rem;
+		color: var(--muted);
+	}
+	.edit {
+		margin-top: 3rem;
+		font-size: 0.9rem;
+	}
+	.edit a {
+		color: var(--muted);
+	}
+</style>

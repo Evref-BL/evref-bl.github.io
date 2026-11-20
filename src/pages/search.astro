@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Search" description="Search every post.">
+	<link slot="head" href="/pagefind/pagefind-component-ui.css" rel="stylesheet" />
+	<h1>Search</h1>
+	<div id="search">
+		<pagefind-input autofocus placeholder="Search posts"></pagefind-input>
+		<pagefind-filter-dropdown filter="kind" label="Kind"></pagefind-filter-dropdown>
+		<pagefind-summary></pagefind-summary>
+		<pagefind-results show-sub-results max-sub-results="3"></pagefind-results>
+	</div>
+	<noscript>Search needs JavaScript.</noscript>
+	<p class="dev-note" hidden>
+		The search index is built by <code>npm run build</code>. Run <code>npm run preview</code> after
+		it to search.
+	</p>
+</Base>
+
+<script>
+	// Pagefind writes this file after the Astro build, so Vite must not resolve it.
+	const url = '/pagefind/pagefind-component-ui.js';
+	import(/* @vite-ignore */ url).catch(() => {
+		document.querySelector<HTMLElement>('#search')!.hidden = true;
+		document.querySelector<HTMLElement>('.dev-note')!.hidden = false;
+	});
+</script>
+
+<style is:global>
+	#search {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 1rem;
+		--pf-font: var(--font-body);
+		--pf-text: var(--text);
+		--pf-text-secondary: var(--muted);
+		--pf-text-muted: var(--muted);
+		--pf-background: var(--surface);
+		--pf-border: var(--border);
+		--pf-border-focus: var(--accent);
+		--pf-hover: var(--accent-soft);
+		--pf-border-radius: 8px;
+	}
+</style>

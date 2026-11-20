@@ -1,0 +1,33 @@
+---
+import { KINDS, type Kind } from '../consts';
+
+interface Props {
+	kind: Kind;
+}
+
+const { kind } = Astro.props;
+---
+
+<a class={`kind kind-${kind}`} href={`/${KINDS[kind].path}/`}>{KINDS[kind].label}</a>
+
+<style>
+	.kind {
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		text-decoration: none;
+	}
+	.kind-guide {
+		color: var(--kind-guide);
+	}
+	.kind-experiment {
+		color: var(--kind-experiment);
+	}
+	.kind-project {
+		color: var(--kind-project);
+	}
+	.kind-news {
+		color: var(--kind-news);
+	}
+</style>

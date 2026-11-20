@@ -1,0 +1,23 @@
+---
+import PostList from '../../components/PostList.astro';
+import { KINDS } from '../../consts';
+import Base from '../../layouts/Base.astro';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+
+<Base title="All posts" description="Every guide, experiment, project and news post, newest first.">
+	<h1>All posts</h1>
+	<p class="page-intro">
+		Newest first. Only {
+			Object.values(KINDS).map((kind, i, all) => (
+				<>
+					{i > 0 && (i === all.length - 1 ? ' or ' : ', ')}
+					<a href={`/${kind.path}/`}>{kind.plural.toLowerCase()}</a>
+				</>
+			))
+		}, or by <a href="/tags/">tag</a>.
+	</p>
+	<PostList posts={posts} byYear />
+</Base>

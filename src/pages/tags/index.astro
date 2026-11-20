@@ -1,0 +1,13 @@
+---
+import TagList from '../../components/TagList.astro';
+import Base from '../../layouts/Base.astro';
+import { countTags, getPosts } from '../../lib/posts';
+
+const counts = countTags(await getPosts());
+---
+
+<Base title="Tags" description="Every tag, with the number of posts that carry it.">
+	<h1>Tags</h1>
+	<p class="page-intro">Most used first.</p>
+	<TagList tags={counts.map(([tag]) => tag)} counts={new Map(counts)} />
+</Base>

@@ -1,0 +1,102 @@
+---
+import PostList from '../components/PostList.astro';
+import TagList from '../components/TagList.astro';
+import { GITHUB_URL, KIND_NAMES, KINDS, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import Base from '../layouts/Base.astro';
+import { countTags, getPosts } from '../lib/posts';
+
+const posts = await getPosts();
+const latest = posts.slice(0, 8);
+const tags = countTags(posts).slice(0, 12);
+const perKind = (kind: string) => posts.filter((post) => post.data.kind === kind).length;
+---
+
+<Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<section class="hero">
+		<h1>{SITE_TITLE}</h1>
+		<p>Guides, experiments and projects from the Evref-BL project. Our code is on <a href={GITHUB_URL}>GitHub</a>.</p>
+	</section>
+
+	<ul class="kinds">
+		{
+			KIND_NAMES.map((kind) => (
+				<li>
+					<a href={`/${KINDS[kind].path}/`} class={`kind-${kind}`}>
+						<strong>{KINDS[kind].plural}</strong>
+						<span>{perKind(kind)}</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+
+	<h2>Latest posts</h2>
+	<PostList posts={latest} />
+	{posts.length > latest.length && <p class="more"><a href="/posts/">All {posts.length} posts</a></p>}
+
+	{
+		tags.length > 0 && (
+			<>
+				<h2>Tags</h2>
+				<TagList tags={tags.map(([tag]) => tag)} counts={new Map(tags)} />
+			</>
+		)
+	}
+</Base>
+
+<style>
+	.hero p {
+		font-size: 1.2rem;
+		color: var(--muted);
+		margin: 0;
+	}
+	.kinds {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 0.75rem;
+		list-style: none;
+		padding: 0;
+		margin: 2rem 0 1rem;
+	}
+	.kinds a {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		padding: 0.75rem 1rem;
+		border: 1px solid var(--border);
+		border-top: 3px solid currentColor;
+		border-radius: var(--radius);
+		background: var(--surface);
+		text-decoration: none;
+	}
+	.kinds a:hover {
+		background: var(--accent-soft);
+	}
+	.kinds strong {
+		color: var(--text);
+	}
+	.kinds span {
+		color: var(--muted);
+		font-size: 0.9rem;
+	}
+	.kind-guide {
+		color: var(--kind-guide);
+	}
+	.kind-experiment {
+		color: var(--kind-experiment);
+	}
+	.kind-project {
+		color: var(--kind-project);
+	}
+	.kind-news {
+		color: var(--kind-news);
+	}
+	.more {
+		margin: 1rem 0 0;
+	}
+	@media (max-width: 720px) {
+		.kinds {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+</style>

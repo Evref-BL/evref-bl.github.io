@@ -1,0 +1,19 @@
+<script>
+	// Loads Mermaid only on pages that have a diagram, and redraws them when the theme changes.
+	const diagrams = [...document.querySelectorAll<HTMLElement>('pre.mermaid')];
+	if (diagrams.length > 0) {
+		for (const diagram of diagrams) diagram.dataset.source = diagram.textContent ?? '';
+		const { default: mermaid } = await import('mermaid');
+		const draw = async () => {
+			const dark = document.documentElement.dataset.theme === 'dark';
+			mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default' });
+			for (const diagram of diagrams) {
+				diagram.removeAttribute('data-processed');
+				diagram.textContent = diagram.dataset.source!;
+			}
+			await mermaid.run({ nodes: diagrams });
+		};
+		await draw();
+		document.addEventListener('themechange', draw);
+	}
+</script>

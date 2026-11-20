@@ -1,0 +1,52 @@
+---
+import type { Post } from '../lib/posts';
+import PostItem from './PostItem.astro';
+
+interface Props {
+	posts: Post[];
+	showKind?: boolean;
+	showPart?: boolean;
+	/** Put a year heading before each year's posts. */
+	byYear?: boolean;
+}
+
+const { posts, showKind, showPart, byYear = false } = Astro.props;
+const years = byYear
+	? [...Map.groupBy(posts, (post) => post.data.date.getUTCFullYear())]
+	: [[null, posts] as const];
+---
+
+{posts.length === 0 && <p class="empty">Nothing here yet.</p>}
+{
+	years.map(([year, group]) => (
+		<section>
+			{year && <h2 class="year">{year}</h2>}
+			<ol>
+				{group.map((post) => (
+					<li>
+						<PostItem post={post} showKind={showKind} showPart={showPart} />
+					</li>
+				))}
+			</ol>
+		</section>
+	))
+}
+
+<style>
+	ol {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.year {
+		font-size: 1rem;
+		color: var(--muted);
+		margin: 2rem 0 0;
+	}
+	section:first-child .year {
+		margin-top: 0;
+	}
+	.empty {
+		color: var(--muted);
+	}
+</style>

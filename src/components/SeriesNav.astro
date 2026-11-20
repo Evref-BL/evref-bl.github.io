@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { postUrl, type Post } from '../lib/posts';
+
+interface Props {
+	series: CollectionEntry<'series'>;
+	/** The series' posts, in order. */
+	parts: Post[];
+	current: Post;
+}
+
+const { series, parts, current } = Astro.props;
+---
+
+<nav class="series" aria-label={`Series: ${series.data.title}`}>
+	<p class="label">
+		Part {current.data.part} of {parts.length} in <a href={`/series/${series.id}/`}>{series.data.title}</a>
+	</p>
+	<ol>
+		{
+			parts.map((part) => (
+				<li>
+					{part.id === current.id ? (
+						<span aria-current="page">{part.data.title}</span>
+					) : (
+						<a href={postUrl(part)}>{part.data.title}</a>
+					)}
+				</li>
+			))
+		}
+	</ol>
+</nav>
+
+<style>
+	.series {
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		background: var(--surface);
+		padding: 0.9rem 1.2rem;
+		margin: 0 0 2rem;
+		font-size: 0.95rem;
+	}
+	.label {
+		margin: 0 0 0.4rem;
+		color: var(--muted);
+	}
+	ol {
+		margin: 0;
+		padding-left: 1.4rem;
+	}
+	[aria-current='page'] {
+		font-weight: 700;
+	}
+</style>
