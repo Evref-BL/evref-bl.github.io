@@ -6,7 +6,30 @@
 		const { default: mermaid } = await import('mermaid');
 		const draw = async () => {
 			const dark = document.documentElement.dataset.theme === 'dark';
-			mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default' });
+			// In the dark, the page's own soft greys rather than Mermaid's high-contrast dark theme.
+			const color = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+			mermaid.initialize(
+				dark
+					? {
+							startOnLoad: false,
+							theme: 'base',
+							themeVariables: {
+								darkMode: true,
+								background: color('--surface'),
+								primaryColor: color('--code-bg'),
+								primaryTextColor: color('--text'),
+								primaryBorderColor: color('--border'),
+								secondaryColor: color('--accent-soft'),
+								tertiaryColor: color('--surface'),
+								lineColor: color('--muted'),
+								textColor: color('--text'),
+								clusterBkg: color('--bg'),
+								clusterBorder: color('--border'),
+								edgeLabelBackground: color('--surface'),
+							},
+						}
+					: { startOnLoad: false, theme: 'default' },
+			);
 			for (const diagram of diagrams) {
 				diagram.removeAttribute('data-processed');
 				diagram.textContent = diagram.dataset.source!;

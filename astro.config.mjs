@@ -20,7 +20,7 @@ export default defineConfig({
 	integrations: [
 		// Before mdx, so MDX posts get the same code blocks.
 		expressiveCode({
-			themes: ['github-light', 'github-dark'],
+			themes: ['github-light', 'dark-plus'],
 			themeCssSelector: (theme) => `[data-theme='${theme.type}']`,
 			useDarkModeMediaQuery: false,
 			shiki: { langAlias: { st: 'smalltalk', ston: 'smalltalk' } },
