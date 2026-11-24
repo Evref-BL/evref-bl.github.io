@@ -37,7 +37,7 @@ const next = parts[index + 1];
 		data-pagefind-meta={`date:${date.toISOString().slice(0, 10)}`}
 	>
 		<header>
-			<p class="meta">
+			<p class="meta" data-pagefind-ignore>
 				<KindLabel kind={kind} />
 				<FormattedDate date={date} />
 				<span>{readingMinutes(post)} min read</span>

@@ -23,10 +23,9 @@ const isCurrent = (href: string) => current === href || current.startsWith(href)
 				))
 			}
 		</ul>
-		<div class="tools">
-			<a href="/search/" class="icon" aria-current={isCurrent('/search/') ? 'page' : undefined}>
-				<span class="sr-only">Search</span>
-				<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+		<div class="bar">
+			<a href="/search/" class="search" aria-keyshortcuts="Meta+K Control+K" aria-current={isCurrent('/search/') ? 'page' : undefined}>
+				<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
 					<path
 						fill="none"
 						stroke="currentColor"
@@ -34,48 +33,147 @@ const isCurrent = (href: string) => current === href || current.startsWith(href)
 						stroke-linecap="round"
 						d="M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15Zm5.3-2.2L21 21"></path>
 				</svg>
+				<span class="label">Search</span>
+				<kbd class="shortcut" aria-hidden="true"><kbd class="modifier">⌘</kbd><kbd>K</kbd></kbd>
 			</a>
-			<button type="button" class="icon theme-toggle" aria-label="Switch between light and dark">
-				<svg class="sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-					<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-						<circle cx="12" cy="12" r="4"></circle>
-						<path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
-					</g>
-				</svg>
-				<svg class="moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-					<path
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linejoin="round"
-						d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"></path>
-				</svg>
-			</button>
-			<a href={GITHUB_URL} class="icon">
-				<span class="sr-only">Evref-BL on GitHub</span>
-				<svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true">
-					<path
-						fill="currentColor"
-						d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-					></path>
-				</svg>
-			</a>
+			<div class="tools">
+				<a href={GITHUB_URL} class="icon">
+					<span class="sr-only">Evref-BL on GitHub</span>
+					<svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true">
+						<path
+							fill="currentColor"
+							d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+						></path>
+					</svg>
+				</a>
+				<a href="/rss.xml" class="icon">
+					<span class="sr-only">RSS feed</span>
+					<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+						<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+							<path d="M5 11a8 8 0 0 1 8 8M5 4a15 15 0 0 1 15 15"></path>
+						</g>
+						<circle cx="6" cy="18" r="1.6" fill="currentColor"></circle>
+					</svg>
+				</a>
+				<span class="divider" aria-hidden="true"></span>
+				<label class="theme" data-choice="auto">
+					<span class="sr-only">Theme</span>
+					<svg class="choice-icon dark" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+						<path
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linejoin="round"
+							d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"></path>
+					</svg>
+					<svg class="choice-icon light" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+						<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+							<circle cx="12" cy="12" r="4"></circle>
+							<path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+						</g>
+					</svg>
+					<svg class="choice-icon auto" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+						<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<rect x="3" y="4" width="18" height="12" rx="2"></rect>
+							<path d="M8 20h8m-4-4v4"></path>
+						</g>
+					</svg>
+					<select autocomplete="off">
+						<option value="dark">Dark</option>
+						<option value="light">Light</option>
+						<option value="auto" selected>Auto</option>
+					</select>
+					<svg class="caret" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+						<path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m7 10 5 5 5-5"></path>
+					</svg>
+				</label>
+				<script is:inline>
+					// Shows the reader's choice before the first paint; the theme itself is set in the head.
+					(() => {
+						let choice;
+						try {
+							choice = localStorage.getItem('theme');
+						} catch {}
+						if (choice !== 'light' && choice !== 'dark') choice = 'auto';
+						const label = document.currentScript.previousElementSibling;
+						label.dataset.choice = choice;
+						label.querySelector('select').value = choice;
+					})();
+				</script>
+			</div>
 		</div>
 	</nav>
 </header>
 
 <script>
-	for (const button of document.querySelectorAll<HTMLButtonElement>('.theme-toggle')) {
-		button.addEventListener('click', () => {
-			const root = document.documentElement;
-			const theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-			root.dataset.theme = theme;
+	// The theme: dark, light, or auto, which follows the system and is the default.
+	const system = matchMedia('(prefers-color-scheme: dark)');
+	const stored = () => {
+		try {
+			const choice = localStorage.getItem('theme');
+			if (choice === 'light' || choice === 'dark') return choice;
+		} catch {}
+		return 'auto';
+	};
+	const apply = (choice: string) => {
+		const theme = choice === 'auto' ? (system.matches ? 'dark' : 'light') : choice;
+		for (const label of document.querySelectorAll<HTMLElement>('.theme')) label.dataset.choice = choice;
+		const root = document.documentElement;
+		if (root.dataset.theme === theme) return;
+		root.dataset.theme = theme;
+		document.dispatchEvent(new CustomEvent('themechange', { detail: theme }));
+	};
+	for (const select of document.querySelectorAll<HTMLSelectElement>('.theme select')) {
+		select.addEventListener('change', () => {
 			try {
-				localStorage.setItem('theme', theme);
+				if (select.value === 'auto') localStorage.removeItem('theme');
+				else localStorage.setItem('theme', select.value);
 			} catch {}
-			document.dispatchEvent(new CustomEvent('themechange', { detail: theme }));
+			apply(select.value);
 		});
 	}
+	system.addEventListener('change', () => {
+		if (stored() === 'auto') apply('auto');
+	});
+
+	// The search box opens Pagefind's search dialog, loaded on first use. Without it (no script,
+	// or a dev server, which has no index), the box is a link to the search page.
+	const search = document.querySelector<HTMLAnchorElement>('a.search')!;
+	if (!/Mac|iPhone|iPad/.test(navigator.platform)) search.querySelector('.modifier')!.textContent = 'Ctrl';
+	let dialog: Promise<(HTMLElement & { open(): void }) | undefined> | undefined;
+	const load = () =>
+		(dialog ??= (async () => {
+			const script = '/pagefind/pagefind-component-ui.js';
+			await import(/* @vite-ignore */ script);
+			const style = Object.assign(document.createElement('link'), {
+				rel: 'stylesheet',
+				href: '/pagefind/pagefind-component-ui.css',
+			});
+			await new Promise((resolve) => {
+				style.onload = style.onerror = resolve;
+				document.head.append(style);
+			});
+			const modal = document.createElement('pagefind-modal') as HTMLElement & { open(): void };
+			document.body.append(modal);
+			return modal;
+		})().catch(() => undefined));
+	const open = async (event: Event) => {
+		event.preventDefault();
+		const input = document.querySelector<HTMLElement>('#search input');
+		if (input) return input.focus();
+		const modal = await load();
+		if (modal) modal.open();
+		else location.assign(search.href);
+	};
+	search.addEventListener('click', open);
+	// Loaded once the page is idle, so that what the reader types right after the shortcut lands in it.
+	if (!document.querySelector('#search')) {
+		if ('requestIdleCallback' in window) requestIdleCallback(() => load(), { timeout: 3000 });
+		else setTimeout(load, 1000);
+	}
+	document.addEventListener('keydown', (event) => {
+		if ((event.metaKey || event.ctrlKey) && !event.altKey && !event.shiftKey && event.key.toLowerCase() === 'k') open(event);
+	});
 </script>
 
 <style>
@@ -127,6 +225,50 @@ const isCurrent = (href: string) => current === href || current.startsWith(href)
 	.links a[aria-current='page'] {
 		border-bottom-color: var(--accent);
 	}
+	.bar {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+	/* Narrow screens show the search box as an icon; wide ones as a box above the text. */
+	.search {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		width: 2.25rem;
+		height: 2.25rem;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		background: var(--bg);
+		color: var(--muted);
+		text-decoration: none;
+		font-size: 0.95rem;
+	}
+	.search:hover,
+	.search[aria-current='page'] {
+		color: var(--text);
+		border-color: var(--muted);
+	}
+	.search .label,
+	.search .shortcut {
+		display: none;
+	}
+	.shortcut {
+		margin-left: auto;
+		gap: 0.15rem;
+		font-family: inherit;
+	}
+	.shortcut kbd {
+		font-family: inherit;
+		font-size: 0.75rem;
+		min-width: 1.4rem;
+		padding: 0.1rem 0.3rem;
+		text-align: center;
+		border: 1px solid var(--border);
+		border-radius: 4px;
+		background: var(--surface);
+	}
 	.tools {
 		display: flex;
 		gap: 0.25rem;
@@ -135,25 +277,65 @@ const isCurrent = (href: string) => current === href || current.startsWith(href)
 	.icon {
 		display: inline-flex;
 		padding: 0.5rem;
-		border: none;
-		background: none;
 		color: var(--muted);
-		cursor: pointer;
 		border-radius: var(--radius);
 	}
-	.icon:hover,
-	.icon[aria-current='page'] {
+	.icon:hover {
 		color: var(--text);
 		background: var(--accent-soft);
 	}
-	:global([data-theme='dark']) .sun,
-	:global([data-theme='light']) .moon {
+	.divider {
+		width: 1px;
+		height: 1.5rem;
+		margin: 0 0.5rem;
+		background: var(--border);
+	}
+	.theme {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		color: var(--muted);
+	}
+	.theme:hover,
+	.theme:focus-within {
+		color: var(--text);
+	}
+	.theme select {
+		appearance: none;
+		border: 1px solid transparent;
+		border-radius: var(--radius);
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		font-size: 0.95rem;
+		line-height: 1;
+		height: 2.25rem;
+		padding: 0 1.75rem 0 2rem;
+		cursor: pointer;
+	}
+	.theme select:hover {
+		background: var(--accent-soft);
+	}
+	.theme svg {
+		position: absolute;
+		pointer-events: none;
+	}
+	.choice-icon {
+		left: 0.6rem;
 		display: none;
+	}
+	.theme[data-choice='dark'] .dark,
+	.theme[data-choice='light'] .light,
+	.theme[data-choice='auto'] .auto {
+		display: block;
+	}
+	.caret {
+		right: 0.4rem;
 	}
 	@media (max-width: 720px) {
 		nav {
 			flex-wrap: wrap;
-			gap: 0 1rem;
+			gap: 0 0.75rem;
 			padding-top: 0.5rem;
 		}
 		.brand {
@@ -166,17 +348,42 @@ const isCurrent = (href: string) => current === href || current.startsWith(href)
 		.links a {
 			padding: 0.6rem 0;
 		}
+		.bar {
+			gap: 0.5rem;
+		}
+		.divider {
+			margin: 0 0.25rem;
+		}
 	}
-	/* A wide screen has the links in the sidebar, and the header spans the same frame as the page. */
+	/* A wide screen has the links in the sidebar, and the header spans the same frame and columns as
+	   the page: its name above the sidebar, the search box above the text, the icons at the end. */
 	@media (min-width: 64rem) {
 		nav {
-			max-width: var(--frame);
+			display: grid;
+			grid-template-columns: var(--sidebar) minmax(0, 1fr);
+			column-gap: var(--gutter);
+			max-width: calc(var(--frame) + 2rem);
+		}
+		.brand {
+			justify-self: start;
+			margin-left: 1rem;
 		}
 		.links {
 			display: none;
 		}
-		.brand {
-			margin-right: auto;
+		.bar {
+			justify-content: space-between;
+		}
+		.search {
+			justify-content: flex-start;
+			width: min(22rem, 100%);
+			height: 2.5rem;
+			margin-left: 1rem;
+			padding: 0 0.5rem 0 0.75rem;
+		}
+		.search .label,
+		.search .shortcut {
+			display: inline-flex;
 		}
 	}
 </style>
