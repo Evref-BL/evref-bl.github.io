@@ -1,0 +1,161 @@
+<nav class="toc" aria-labelledby="on-this-page" hidden>
+	<h2 id="on-this-page">On this page</h2>
+	<ol></ol>
+</nav>
+
+<script>
+	// Built from the rendered post: its sections, and under each one the figures, diagrams and
+	// tables it holds, which have no heading of their own.
+	const toc = document.querySelector<HTMLElement>('nav.toc');
+	const content = document.querySelector<HTMLElement>('.content');
+	if (toc && content) {
+		const root = toc.querySelector('ol')!;
+		const counts: Record<string, number> = {};
+		const entry = (list: HTMLOListElement, target: HTMLElement, label: string, kind?: string) => {
+			if (!target.id) {
+				const key = kind!.toLowerCase();
+				counts[key] = (counts[key] ?? 0) + 1;
+				target.id = `${key}-${counts[key]}`;
+			}
+			const item = document.createElement('li');
+			const link = document.createElement('a');
+			link.href = `#${target.id}`;
+			if (kind) {
+				item.className = 'float';
+				const name = document.createElement('span');
+				name.className = 'kind';
+				name.textContent = kind;
+				link.append(name, label ? ` ${label}` : '');
+				link.title = label;
+			} else {
+				link.textContent = label;
+			}
+			item.append(link);
+			list.append(item);
+			return item;
+		};
+		const sublist = (item: HTMLLIElement) =>
+			item.querySelector<HTMLOListElement>(':scope > ol') ?? item.appendChild(document.createElement('ol'));
+		// A figure's alt text often names it before a colon, then describes it.
+		const name = (text: string) => {
+			const colon = text.indexOf(':');
+			return (colon > 0 ? text.slice(0, colon) : text).trim();
+		};
+
+		let section: HTMLLIElement | undefined;
+		let subsection: HTMLLIElement | undefined;
+		const here = () => (subsection ? sublist(subsection) : section ? sublist(section) : root);
+		const headings: [HTMLElement, HTMLAnchorElement][] = [];
+		for (const element of content.querySelectorAll<HTMLElement>(
+			'h2[id], h3[id], img, figure.diagram, pre.mermaid, table',
+		)) {
+			switch (element.tagName) {
+				case 'H2':
+					section = entry(root, element, element.textContent ?? '');
+					subsection = undefined;
+					headings.push([element, section.querySelector('a')!]);
+					break;
+				case 'H3':
+					subsection = entry(section ? sublist(section) : root, element, element.textContent ?? '');
+					headings.push([element, subsection.querySelector('a')!]);
+					break;
+				case 'IMG':
+					entry(here(), element, name((element as HTMLImageElement).alt), 'Figure');
+					break;
+				case 'FIGURE':
+					entry(here(), element, name(element.querySelector('svg')?.getAttribute('aria-label') ?? ''), 'Diagram');
+					break;
+				case 'PRE': {
+					const title = (element.dataset.source ?? element.textContent ?? '').match(/accTitle:\s*(.+)/);
+					entry(here(), element, title ? title[1].trim() : '', 'Diagram');
+					break;
+				}
+				default: {
+					const columns = [...element.querySelectorAll('thead th')].map((cell) => cell.textContent?.trim());
+					entry(here(), element, columns.filter(Boolean).join(', '), 'Table');
+				}
+			}
+		}
+
+		if (root.children.length > 0) {
+			toc.hidden = false;
+			// The section being read is the last whose heading has scrolled past the top quarter.
+			const update = () => {
+				const line = window.innerHeight / 4;
+				let current: HTMLAnchorElement | undefined;
+				for (const [heading, link] of headings) {
+					if (heading.getBoundingClientRect().top > line) break;
+					current = link;
+				}
+				for (const [, link] of headings) {
+					if (link === current) link.setAttribute('aria-current', 'location');
+					else link.removeAttribute('aria-current');
+				}
+			};
+			window.addEventListener('scroll', update, { passive: true });
+			update();
+		}
+	}
+</script>
+
+<style>
+	.toc {
+		display: none;
+	}
+	@media (min-width: 84rem) {
+		.toc:not([hidden]) {
+			display: block;
+			position: sticky;
+			top: 2.5rem;
+			align-self: start;
+			/* Ends above the back-to-top button. */
+			max-height: calc(100vh - 7rem);
+			overflow-y: auto;
+			margin-top: 2.5rem;
+			padding-right: 1rem;
+			font-size: 0.85rem;
+			line-height: 1.4;
+		}
+	}
+	h2 {
+		margin: 0 0 0.5rem;
+		font-size: 0.75rem;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--muted);
+	}
+	.toc :global(ol) {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.toc :global(ol ol) {
+		padding-left: 0.9rem;
+	}
+	.toc :global(a) {
+		display: block;
+		padding: 0.2rem 0 0.2rem 0.6rem;
+		border-left: 2px solid var(--border);
+		color: var(--muted);
+		text-decoration: none;
+	}
+	.toc :global(a:hover) {
+		color: var(--text);
+	}
+	.toc :global(a[aria-current]) {
+		color: var(--accent);
+		border-left-color: var(--accent);
+	}
+	.toc :global(.float a) {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 0.8rem;
+	}
+	.toc :global(.kind) {
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		opacity: 0.8;
+	}
+</style>

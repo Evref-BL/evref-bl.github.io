@@ -17,6 +17,7 @@ FAST-Java is syntactic: it models what a program writes, not what its names reso
 
 ```mermaid
 flowchart LR
+  accTitle: The round trip through FAST-Java
   source[Source] -- import --> model[FAST-Java model] -- export --> export[Export]
   source --> javac{{Same javac tree?}}
   export --> javac
@@ -111,6 +112,7 @@ The JDK is a large corpus but a biased one. It writes what its authors needed, a
 
 ```mermaid
 flowchart LR
+  accTitle: From a JLS goal to a test
   goals[Goals from the JLS grammar] --> program[Smallest program]
   program --> javac{javac accepts it?}
   javac -- no, try another --> program

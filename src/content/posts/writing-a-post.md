@@ -52,10 +52,11 @@ MRERule subclass: #MyRule
 	package: 'My-Rules'
 ```
 
-A `mermaid` code block is drawn as a diagram:
+A `mermaid` code block is drawn as a diagram. Its `accTitle:` line names it, for screen readers and in the post's contents beside the text, as an image's alt text does up to its first colon:
 
 ```mermaid
 flowchart LR
+  accTitle: From writing to publishing
   write[Write the post] --> preview[Preview it locally] --> pr[Open a pull request] --> merge[Merge: it is published]
 ```
 

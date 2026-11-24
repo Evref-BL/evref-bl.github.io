@@ -43,6 +43,12 @@
 			opacity 0.2s,
 			visibility 0.2s;
 	}
+	/* Beside a sidebar, the text is right of the middle and leaves no room. */
+	@media (min-width: 64rem) and (max-width: 83.99rem) {
+		.to-top {
+			right: max(1rem, env(safe-area-inset-right, 0px));
+		}
+	}
 	.to-top.shown {
 		opacity: 1;
 		visibility: visible;

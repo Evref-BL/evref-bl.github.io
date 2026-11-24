@@ -75,6 +75,7 @@ Pharo MCP is an MCP server written in Pharo, and it runs inside your image. You 
 
 ```mermaid
 flowchart LR
+  accTitle: Pharo MCP inside the image
   agent(["Agent host"]) <-- "MCP over Streamable HTTP,<br/>on a port of your choice" --> mcp
   subgraph image["Pharo image"]
     direction LR
@@ -113,6 +114,7 @@ At its core, Pharo MCP is a generic MCP server. It speaks the protocol, validate
 
 ```mermaid
 flowchart LR
+  accTitle: Pharo MCP's core and what plugs into it
   agent(["Agent host"]) <-- "MCP" --> core
   subgraph image["Pharo image"]
     core["<b>MCP core</b><br/>protocol, HTTP,<br/>schema checks, catalog"]
@@ -266,7 +268,7 @@ Pharo MCP also has a user interface in the image. The screenshots below come fro
 
 The world menu lists the image's servers under *Library → MCP Servers*. From there a server can be started, stopped or opened, and a new one created on a port. This image has three servers: a running one with every tool, a running one that serves only the bookshop's own tool, and a stopped one, selected here, which can be started again or removed.
 
-![The MCP Servers window, listing a stopped server, selected, and two running servers, each with its port, endpoint and number of listed tools](../../assets/posts/pharo-mcp/servers.png)
+![The MCP Servers window: a stopped server, selected, and two running servers, each with its port, endpoint and number of listed tools](../../assets/posts/pharo-mcp/servers.png)
 
 An inspected server shows two tabs. The **dashboard** shows the server's status and endpoint, and every tool it could run, with whether it has the tool (*Enabled*) and whether `tools/list` shows it (*Listed*). The bookshop's tool is enabled but not listed: an agent finds it by searching the catalog.
 

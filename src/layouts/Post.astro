@@ -5,6 +5,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import KindLabel from '../components/KindLabel.astro';
 import Mermaid from '../components/Mermaid.astro';
 import SeriesNav from '../components/SeriesNav.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 import TagList from '../components/TagList.astro';
 import { KINDS, REPOSITORY_URL } from '../consts';
 import { getPosts, markdownUrl, postUrl, readingMinutes, type Post } from '../lib/posts';
@@ -102,6 +103,7 @@ const next = parts[index + 1];
 	</article>
 
 	<Mermaid />
+	<TableOfContents slot="toc" />
 
 	<p class="edit">
 		<a href={`${REPOSITORY_URL}/edit/main/${post.filePath}`}>Edit this post on GitHub</a>
@@ -190,8 +192,7 @@ const next = parts[index + 1];
 	.content :global(.expressive-code) {
 		margin: 1.5rem 0;
 	}
-	.content :global(h2[id]),
-	.content :global(h3[id]) {
+	.content :global([id]) {
 		scroll-margin-top: 1rem;
 	}
 	.prev-next {

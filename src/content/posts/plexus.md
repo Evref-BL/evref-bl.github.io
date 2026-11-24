@@ -28,6 +28,7 @@ Pharo MCP already allows several images at once, since each image runs its own s
 
 ```mermaid
 flowchart LR
+  accTitle: One server per image, each on its own port
   agent(["Agent"]) -- ":4001" --> a["Image 1"]
   agent -- ":4002" --> b["Image 2"]
   agent -- ":4003" --> c["Image 3"]
@@ -49,6 +50,7 @@ PLexus has two jobs.
 
 ```mermaid
 flowchart LR
+  accTitle: PLexus forwards each call to its image
   agent(["Agent host"]) -- "a tool call<br/>for image moose" --> plexus["PLexus"]
   plexus -- ":4001" --> a["moose"]
   plexus -- ":4002" --> b["pharo14-dev"]
@@ -69,7 +71,7 @@ So the agent can do the whole cycle on its own: create an image for its task, st
 
 Here is how the pieces fit together, from the agent down to the images:
 
-![The agent host talks to PLexus over stdio; PLexus uses pharo-launcher-mcp as a library and talks to Pharo MCP, inside the Pharo image, over Streamable HTTP; pharo-launcher-mcp creates, starts, stops and deletes the image.](../../assets/posts/plexus/agent-to-image.drawio.svg)
+![From the agent to the image: the agent host talks to PLexus over stdio; PLexus uses pharo-launcher-mcp as a library and talks to Pharo MCP, inside the Pharo image, over Streamable HTTP; pharo-launcher-mcp creates, starts, stops and deletes the image.](../../assets/posts/plexus/agent-to-image.drawio.svg)
 
 - The **agent host** launches PLexus as a subprocess, and exchanges MCP messages with it through its standard input and output (stdio).
 - **PLexus** decides what to do: manage an image itself, or forward a call to one.

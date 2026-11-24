@@ -28,7 +28,7 @@ The plugin runs no code of its own. Everything it does, PLexus and Pharo MCP do.
 
 Here is how the pieces fit together, from the agent down to the Pharo images. The plugin's box is what it installs; PLexus brings pharo-launcher-mcp with it. Everything below the agent host runs on the host's machine: PLexus as its subprocess, and Pharo MCP inside each image.
 
-![The agent host reads the plugin's skills and talks to PLexus over stdio; PLexus uses pharo-launcher-mcp as a library and talks to Pharo MCP, inside the Pharo image, over Streamable HTTP; pharo-launcher-mcp creates, starts, stops and deletes the image.](../../assets/posts/pharo-agent-plugin/agent-to-image.drawio.svg)
+![From the agent to the image: the agent host reads the plugin's skills and talks to PLexus over stdio; PLexus uses pharo-launcher-mcp as a library and talks to Pharo MCP, inside the Pharo image, over Streamable HTTP; pharo-launcher-mcp creates, starts, stops and deletes the image.](../../assets/posts/pharo-agent-plugin/agent-to-image.drawio.svg)
 
 | Layer | What it does |
 | --- | --- |
