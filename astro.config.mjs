@@ -5,13 +5,14 @@ import sitemap from '@astrojs/sitemap';
 import expressiveCode from 'astro-expressive-code';
 import { satteri } from '@astrojs/markdown-satteri';
 import { defineConfig, fontProviders } from 'astro/config';
+import drawio from './src/lib/drawio-plugin.ts';
 import mermaid from './src/lib/mermaid-plugin.ts';
 
 export default defineConfig({
 	site: 'https://evref-bl.github.io',
 	trailingSlash: 'ignore',
 	markdown: {
-		processor: satteri({ mdastPlugins: [mermaid] }),
+		processor: satteri({ mdastPlugins: [mermaid, drawio] }),
 	},
 	vite: {
 		// Mermaid is the one large chunk, and only pages with a diagram load it.
