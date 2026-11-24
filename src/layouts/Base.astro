@@ -3,6 +3,7 @@ import type { ComponentProps } from 'astro/types';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import ToTop from '../components/ToTop.astro';
 
 type Props = ComponentProps<typeof BaseHead>;
 ---
@@ -19,5 +20,6 @@ type Props = ComponentProps<typeof BaseHead>;
 			<slot />
 		</main>
 		<Footer />
+		<ToTop />
 	</body>
 </html>

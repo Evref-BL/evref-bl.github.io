@@ -23,3 +23,16 @@ export function countTags(posts: Post[]): [string, number][] {
 }
 
 export const markdownUrl = (post: Post) => `/posts/${post.id}.md`;
+
+/**
+ * Minutes to read a post, at 200 words a minute. Diagrams and the targets of links and images
+ * are left out: a reader looks at a diagram, and reads a link's text.
+ */
+export function readingMinutes(post: Post): number {
+	const text = (post.body ?? '')
+		.replace(/```mermaid[\s\S]*?```/g, '')
+		.replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+		.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
+	const words = text.match(/[\p{L}\p{N}]+/gu)?.length ?? 0;
+	return Math.max(1, Math.round(words / 200));
+}

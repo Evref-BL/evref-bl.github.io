@@ -1,5 +1,5 @@
 ---
-import { postUrl, type Post } from '../lib/posts';
+import { postUrl, readingMinutes, type Post } from '../lib/posts';
 import FormattedDate from './FormattedDate.astro';
 import KindLabel from './KindLabel.astro';
 import TagList from './TagList.astro';
@@ -21,6 +21,7 @@ const { title, description, date, kind, tags, part, draft } = post.data;
 		{showKind && <KindLabel kind={kind} />}
 		{showPart && <span>Part {part}</span>}
 		<FormattedDate date={date} />
+		<span>{readingMinutes(post)} min read</span>
 		{draft && <span class="draft">Draft</span>}
 	</p>
 	<h2><a href={postUrl(post)}>{title}</a></h2>
