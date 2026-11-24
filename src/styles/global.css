@@ -190,6 +190,24 @@ figure.diagram svg {
 	height: auto;
 }
 
+/* Pagefind's search, on the search page and in the dialog the header's search box opens. */
+#search,
+pagefind-modal {
+	--pf-font: var(--font-body);
+	--pf-text: var(--text);
+	--pf-text-secondary: var(--muted);
+	--pf-text-muted: var(--muted);
+	--pf-background: var(--surface);
+	--pf-border: var(--border);
+	--pf-border-focus: var(--accent);
+	--pf-outline-focus: var(--accent);
+	--pf-hover: var(--accent-soft);
+	--pf-mark: var(--text);
+	--pf-skeleton: var(--code-bg);
+	--pf-skeleton-shine: var(--border);
+	--pf-border-radius: var(--radius);
+}
+
 .page-intro {
 	color: var(--muted);
 	margin: 0 0 2rem;
