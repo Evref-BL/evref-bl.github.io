@@ -48,9 +48,12 @@ html {
 	-webkit-text-size-adjust: 100%;
 }
 
-/* Clears the sticky header, 65 pixels high, or about 72 on a phone where its links wrap. */
-html {
-	scroll-padding-top: 4.5rem;
+/* Clears the header, which stays in view only on a narrow screen: 65 pixels high, or about 72
+   on a phone where its links wrap. */
+@media (max-width: 63.99rem) {
+	html {
+		scroll-padding-top: 4.5rem;
+	}
 }
 
 body {
