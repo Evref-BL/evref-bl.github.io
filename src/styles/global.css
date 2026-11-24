@@ -13,6 +13,8 @@
 	--kind-news: #b4580f;
 	--radius: 8px;
 	--measure: 46rem;
+	--sidebar: 15rem;
+	--gutter: 2.5rem;
 	--font-body: var(--font-atkinson), system-ui, sans-serif;
 	--font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 	color-scheme: light;
@@ -43,8 +45,13 @@
 
 html {
 	-webkit-text-size-adjust: 100%;
-	/* Clears the sticky header, which is 61 pixels high on a wide screen and 72 on a narrow one. */
-	scroll-padding-top: 4.5rem;
+}
+
+/* Clears the sticky header of a narrow screen, 61 to 72 pixels high as its links wrap. */
+@media (max-width: 63.99rem) {
+	html {
+		scroll-padding-top: 4.5rem;
+	}
 }
 
 body {
@@ -59,8 +66,26 @@ body {
 	min-height: 100vh;
 }
 
-main {
+.page {
 	flex: 1;
+}
+
+/* A wide screen has the navigation in a sidebar, and a post's contents on the right of it. */
+@media (min-width: 64rem) {
+	.page {
+		display: grid;
+		grid-template-columns: var(--sidebar) minmax(0, var(--measure));
+		justify-content: center;
+		column-gap: var(--gutter);
+	}
+}
+@media (min-width: 84rem) {
+	.page {
+		grid-template-columns: var(--sidebar) minmax(0, var(--measure)) var(--sidebar);
+	}
+}
+
+main {
 	width: 100%;
 	max-width: var(--measure);
 	margin: 0 auto;

@@ -53,6 +53,7 @@ v4 often chose an entity's class from where it stood. v5 reads the same text the
 
 ```mermaid
 flowchart LR
+  accTitle: The namespaces of a dotted name
   constant[CONSTANT] -- namespace --> bar[Bar] -- namespace --> foo[foo] -- namespace --> com[com]
 ```
 
