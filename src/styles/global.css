@@ -43,6 +43,8 @@
 
 html {
 	-webkit-text-size-adjust: 100%;
+	/* Clears the sticky header, which is 61 pixels high on a wide screen and 72 on a narrow one. */
+	scroll-padding-top: 4.5rem;
 }
 
 body {

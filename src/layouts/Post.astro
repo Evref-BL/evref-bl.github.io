@@ -7,7 +7,7 @@ import Mermaid from '../components/Mermaid.astro';
 import SeriesNav from '../components/SeriesNav.astro';
 import TagList from '../components/TagList.astro';
 import { KINDS, REPOSITORY_URL } from '../consts';
-import { getPosts, markdownUrl, postUrl, type Post } from '../lib/posts';
+import { getPosts, markdownUrl, postUrl, readingMinutes, type Post } from '../lib/posts';
 import Base from './Base.astro';
 
 interface Props {
@@ -39,6 +39,7 @@ const next = parts[index + 1];
 			<p class="meta">
 				<KindLabel kind={kind} />
 				<FormattedDate date={date} />
+				<span>{readingMinutes(post)} min read</span>
 				{draft && <span class="draft">Draft: not published</span>}
 			</p>
 			<h1>{title}</h1>
