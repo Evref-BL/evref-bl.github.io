@@ -59,6 +59,12 @@ flowchart LR
   write[Write the post] --> preview[Preview it locally] --> pr[Open a pull request] --> merge[Merge: it is published]
 ```
 
+A diagram that Mermaid lays out badly can be drawn in [draw.io](https://www.drawio.com/) instead, and saved as a `.drawio.svg` file. It is linked like an image, `![What it shows](../../assets/posts/my-post/diagram.drawio.svg)`, and drawn inside the page. Its lines and labels follow the site's theme when they use the light theme's colours: `#5c6370` for lines, `#1d2026` for text and `#ffffff` behind labels. Export it with draw.io's light theme, into the same file, which stays editable in draw.io:
+
+```sh
+draw.io -x -e -t --theme light --embed-svg-fonts false -b 4 -o diagram.drawio.svg diagram.drawio.svg
+```
+
 A post that needs components or interactive parts can be an `.mdx` file instead.
 
 ## Preview and publish

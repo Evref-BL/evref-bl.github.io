@@ -12,6 +12,9 @@
 			mermaid.initialize({
 				startOnLoad: false,
 				theme: 'base',
+				// Mermaid wraps a node's label at 120 pixels, which breaks a short title such as
+				// "pharo-launcher-mcp" in two. Labels break where their source says, with <br/>.
+				flowchart: { wrappingWidth: 240 },
 				themeVariables: {
 					darkMode: dark,
 					background: color('--surface'),

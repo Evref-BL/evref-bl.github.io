@@ -138,13 +138,23 @@ td {
 	text-align: left;
 }
 
-pre.mermaid {
+pre.mermaid,
+figure.diagram {
 	background: var(--surface);
 	border: 1px solid var(--border);
 	border-radius: var(--radius);
 	padding: 1rem;
 	text-align: center;
 	overflow-x: auto;
+}
+
+figure.diagram {
+	margin-inline: 0;
+}
+
+figure.diagram svg {
+	max-width: 100%;
+	height: auto;
 }
 
 .page-intro {

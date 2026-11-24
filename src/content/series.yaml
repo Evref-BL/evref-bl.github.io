@@ -1,2 +1,4 @@
 # One entry per series. A post joins one with `series: <key>` and `part: <n>`.
-{}
+agentic-pharo:
+  title: Agentic Pharo
+  description: The three projects that let an AI agent work in live Pharo images, from the server inside an image to the plugin an agent host installs.
