@@ -15,6 +15,7 @@
 	--measure: 46rem;
 	--sidebar: 15rem;
 	--gutter: 2.5rem;
+	--header-height: 4rem;
 	--font-body: var(--font-atkinson), system-ui, sans-serif;
 	--font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 	color-scheme: light;
@@ -47,11 +48,9 @@ html {
 	-webkit-text-size-adjust: 100%;
 }
 
-/* Clears the sticky header of a narrow screen, 61 to 72 pixels high as its links wrap. */
-@media (max-width: 63.99rem) {
-	html {
-		scroll-padding-top: 4.5rem;
-	}
+/* Clears the sticky header, 65 pixels high, or about 72 on a phone where its links wrap. */
+html {
+	scroll-padding-top: 4.5rem;
 }
 
 body {
@@ -70,8 +69,12 @@ body {
 	flex: 1;
 }
 
-/* A wide screen has the navigation in a sidebar, and a post's contents on the right of it. */
+/* A wide screen has the navigation in a sidebar, and a post's contents on the right of it.
+   The header spans the same frame, so its name sits above the sidebar. */
 @media (min-width: 64rem) {
+	:root {
+		--frame: calc(var(--sidebar) + var(--gutter) + var(--measure));
+	}
 	.page {
 		display: grid;
 		grid-template-columns: var(--sidebar) minmax(0, var(--measure));
@@ -80,6 +83,9 @@ body {
 	}
 }
 @media (min-width: 84rem) {
+	:root {
+		--frame: calc(2 * var(--sidebar) + 2 * var(--gutter) + var(--measure));
+	}
 	.page {
 		grid-template-columns: var(--sidebar) minmax(0, var(--measure)) var(--sidebar);
 	}
