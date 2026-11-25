@@ -76,7 +76,7 @@ Pharo MCP and PLexus record each tool call as the [conventions for MCP](https://
 | The side that answers makes a *server* span, the side that asks a *client* span | PLexus: a server span for the host's call, a client span for the call it sends to the image. The image: a server span |
 | The method, the tool and the operation: `mcp.method.name`, `gen_ai.tool.name`, and `gen_ai.operation.name` set to `execute_tool` | Always |
 | The protocol version, the session and the transport: `mcp.protocol.version`, `mcp.session.id`, `network.transport` | When known |
-| How the call failed, in `error.type`: `tool_error` when the tool reports an error, else the JSON-RPC error's code, which `rpc.status_code` holds too. Each side judges from its own: a server's span does not count a request it could not serve because of the caller, such as arguments that do not fit the tool's schema, as its error, while the client's span does | Always |
+| How the call failed, in `error.type`: `tool_error` when the tool reports an error, else the JSON-RPC error's code, which `rpc.status_code` holds too. Each side judges from its own: a server's span does not count a request it could not serve because of the caller, such as a call to a tool it does not have, as its error, while the client's span does | Always |
 | The trace context travels inside the request, in its `_meta`, so that the span of the side that answers is the child of the one that asks | PLexus reads it from the agent host, and passes it to the image |
 
 What the conventions do not cover is ours, under our own prefixes, `pharo.mcp.` and `plexus.`: the names of the arguments, the sizes, whether an answer was cut. The prefixes keep our attributes apart from any name the conventions add later.
