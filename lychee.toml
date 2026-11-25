@@ -1,0 +1,11 @@
+# The link check the site's CI runs on the built site; see .github/workflows/site.yml.
+
+# A link to a folder of the site is good when the folder holds a page.
+index_files = ["index.html"]
+
+# 403: a site that refuses robots, as the ACM's does behind a DOI. 429: a rate limit.
+# Neither says the page is gone.
+accept = ["200..=299", "403", "429"]
+
+max_retries = 4
+retry_wait_time = 5
