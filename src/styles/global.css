@@ -190,6 +190,47 @@ figure.diagram svg {
 	height: auto;
 }
 
+/* Citations, [1], and the references they link to at the end of a post (src/lib/citations.ts). */
+.citation {
+	white-space: nowrap;
+}
+
+.citation a {
+	text-decoration: none;
+}
+
+.citation a:hover {
+	text-decoration: underline;
+}
+
+ol.references {
+	list-style: none;
+	counter-reset: reference;
+	padding-left: 2.75em;
+	font-size: 0.95rem;
+}
+
+ol.references > li {
+	counter-increment: reference;
+	position: relative;
+	margin-bottom: 0.6rem;
+	overflow-wrap: anywhere;
+}
+
+ol.references > li::before {
+	content: '[' counter(reference) ']';
+	position: absolute;
+	right: calc(100% + 0.6em);
+	white-space: nowrap;
+	color: var(--muted);
+}
+
+ol.references > li:target {
+	background: var(--accent-soft);
+	border-radius: 4px;
+	outline: 0.3em solid var(--accent-soft);
+}
+
 /* Pagefind's search, on the search page and in the dialog the header's search box opens. */
 #search,
 pagefind-modal {

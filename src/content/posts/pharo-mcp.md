@@ -23,7 +23,7 @@ Coding agents work mostly through a terminal and tools that read and edit files.
 
 ## The Model Context Protocol
 
-The [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) is an open standard for connecting AI applications to tools and data. Its specification is published in dated revisions; this post follows revision 2026-07-28, the latest when it was written. The [architecture](https://modelcontextprotocol.io/specification/2026-07-28/architecture) it describes has three roles:
+The [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) is an open standard for connecting AI applications to tools and data. Its specification is published in dated revisions; this post follows revision 2026-07-28 [@mcp-2026-07-28], the latest when it was written. The [architecture](https://modelcontextprotocol.io/specification/2026-07-28/architecture) it describes has three roles:
 
 - An **MCP server** is a program that offers tools and other context.
 - The **host** is the application the agent runs in. In this series, it is the agent host.
@@ -31,7 +31,7 @@ The [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) is an open 
 
 A host can use any server that supports a revision of the protocol it also supports, whoever wrote either one.
 
-Client and server exchange [JSON-RPC](https://www.jsonrpc.org/) messages over a **transport**. The revision [defines two](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports), and allows custom ones:
+Client and server exchange [JSON-RPC](https://www.jsonrpc.org/) 2.0 messages [@jsonrpc2] over a **transport**. The revision [defines two](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports), and allows custom ones:
 
 | | stdio | Streamable HTTP |
 | --- | --- | --- |

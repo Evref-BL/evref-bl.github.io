@@ -7,7 +7,7 @@ tags: [fast, java, moose]
 authors: [gabriel-darbord]
 ---
 
-[FAST-Java](https://github.com/moosetechnology/FAST-JAVA) is the Moose metamodel of Java syntax trees. An importer builds a model from source with the Java parser of [SmaCC](https://github.com/j-brant/SmaCC), and an exporter writes a model back as source. Analyses, rewriting rules and interpreters built on FAST-Java can only be as right as that model.
+[FAST-Java](https://github.com/moosetechnology/FAST-JAVA) is the Moose [@nierstrasz2005moose] metamodel of Java syntax trees. An importer builds a model from source with the Java parser of [SmaCC](https://github.com/j-brant/SmaCC), and an exporter writes a model back as source. Analyses, rewriting rules and interpreters built on FAST-Java can only be as right as that model.
 
 This autumn we set out to answer one question: does FAST-Java handle all of Java? Unit tests and sample projects only show that it handles what they contain. This post is about how we answered the question instead, and what we fixed along the way. We did it with Claude, Anthropic's AI model, and the [last section](#how-we-worked) says how. A [second post](/posts/fast-java-v5/) presents FAST-Java v5, which grew out of this work.
 
@@ -36,7 +36,7 @@ Writing a source back exactly as it was is not on the list. Redundant parenthese
 
 ## javac decides
 
-Reading the JLS and writing probes by hand, we twice recorded a gap in the parser that turned out not to be Java at all. Since then, every probe goes through javac before it counts, and javac decides every check above. It says which programs are valid. Its parser's trees, compared with parentheses skipped, say whether two programs mean the same.
+Reading the Java Language Specification (JLS) [@jls-se25] and writing probes by hand, we twice recorded a gap in the parser that turned out not to be Java at all. Since then, every probe goes through javac before it counts, and javac decides every check above. It says which programs are valid. Its parser's trees, compared with parentheses skipped, say whether two programs mean the same.
 
 javac runs as a small Java server that Pharo queries over HTTP. Thousands of checks then pay for a single JVM start-up.
 
@@ -122,8 +122,8 @@ flowchart LR
 
 - **Grammar.** Each JLS edition is published as HTML, with every production marked up. A reader takes chapters 3 to 19 of an edition and builds its grammar. Chapter 19 is not enough on its own: it is a summary, and SE 25's names productions it does not define.
 - **Goals.** From that grammar, a list of what some program must contain, taken from the grammar-testing literature:
-  - every alternative of every production (Purdom's coverage);
-  - every alternative at every place its production is used (Lämmel's context-dependent coverage);
+  - every alternative of every production (Purdom's coverage [@purdom1972]);
+  - every alternative at every place its production is used (Lämmel's context-dependent coverage [@laemmel2001]);
   - every repetition written 0, 1 and 2 times;
   - every option taken and left out.
 
