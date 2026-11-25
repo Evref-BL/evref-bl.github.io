@@ -68,6 +68,20 @@ draw.io -x -e -t --theme light --embed-svg-fonts false -b 4 -o diagram.drawio.sv
 
 A post that needs components or interactive parts can be an `.mdx` file instead.
 
+## Citing
+
+A post cites a paper, a book or a specification by its key in [`src/content/references.bib`](https://github.com/Evref-BL/evref-bl.github.io/blob/main/src/content/references.bib), the site's one bibliography. Add the work there first, exported from Zotero, DBLP or its publisher with its DOI, then cite it in brackets:
+
+| You write | The reader sees |
+| --- | --- |
+| `[@purdom1972]` | [1] |
+| `[@jls-se25, §15.10.1]` | [2, §15.10.1] |
+| `[@purdom1972; @laemmel2001]` | [1, 3] |
+
+Works are numbered in the order the post first cites them. Each number links to the post's references, listed under a "References" heading at its end in IEEE style, and shows the full reference when hovered. A key the bibliography lacks fails the build. The Markdown served to agents carries the same numbers and references.
+
+Keep links for what a reader clicks through to, such as a repository or a tool's documentation, and cite what a claim rests on: a paper, a standard, a specification at the revision you read.
+
 ## Preview and publish
 
 ```sh

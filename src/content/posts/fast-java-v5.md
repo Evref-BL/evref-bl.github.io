@@ -17,7 +17,7 @@ v5 does not read more Java than v4.6.0: both import and export the same programs
 
 ## The model holds what Java writes, and nothing else
 
-A model that can hold what Java cannot write is no help to an analysis, and lets a transformation build code that does not compile. v5 removes those possibilities wherever the JLS rules them out.
+A model that can hold what Java cannot write is no help to an analysis, and lets a transformation build code that does not compile. v5 removes those possibilities wherever the JLS rules them out [@jls-se25].
 
 **Annotations are not modifiers.** For `@Deprecated public final void m()`:
 
