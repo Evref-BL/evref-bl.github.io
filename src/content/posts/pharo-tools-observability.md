@@ -1,9 +1,9 @@
 ---
 title: Observability for the Pharo agent tools, with OpenTelemetry
-description: What Pharo MCP and PLexus can record about each tool call an agent makes, how they follow OpenTelemetry's semantic conventions for generative AI, what they leave out by default, and how to send it to a backend of your own.
+description: What Pharo MCP and PLexus can record about each tool call an agent makes, how they follow OpenTelemetry's semantic conventions for generative AI, and how to send it to a backend of your own.
 date: 2026-11-24
 kind: project
-tags: [pharo, agentic, telemetry, opentelemetry, pharo-mcp, plexus]
+tags: [pharo, agentic, telemetry, pharo-mcp, plexus]
 authors: [gabriel-darbord]
 ---
 
