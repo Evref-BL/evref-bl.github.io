@@ -52,7 +52,7 @@ Each span says:
 
 PLexus also records a span when it creates, starts, stops or deletes an image. And each image counts its calls in metrics too, such as how long they take.
 
-[MCP's observability guide](https://github.com/Evref-BL/MCP/blob/main/docs/user/observability.md) and [PLexus's README](https://github.com/Evref-BL/PLexus#telemetry) list every attribute.
+[MCP's observability guide](https://github.com/Evref-BL/MCP/blob/main/docs/user/observability.md) and [PLexus's telemetry guide](https://github.com/Evref-BL/PLexus/blob/main/docs/telemetry.md) list every attribute.
 
 ## Built on OpenTelemetry's conventions for AI
 
@@ -139,6 +139,6 @@ Keep the backend, or a collector in front of it, on the same machine: an image l
 ## Read more
 
 - [MCP's observability guide](https://github.com/Evref-BL/MCP/blob/main/docs/user/observability.md): every attribute and metric of an image, and how its settings are read.
-- [PLexus's README](https://github.com/Evref-BL/PLexus#telemetry): every span of PLexus, and its settings.
+- [PLexus's telemetry guide](https://github.com/Evref-BL/PLexus/blob/main/docs/telemetry.md): every span of PLexus, and its settings.
 - [Generative AI Observability](https://github.com/open-telemetry/community/blob/5125996b5d159ff9aaa906f9a25226a821dc7bed/projects/gen-ai.md): the OpenTelemetry project.
 - [OpenTelemetry's conventions for MCP](https://github.com/open-telemetry/semantic-conventions-genai/blob/7cb940f24dea/docs/gen-ai/mcp.md).

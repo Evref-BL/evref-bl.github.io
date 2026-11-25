@@ -106,13 +106,13 @@ PLexus is a [Node.js](https://nodejs.org/) package, [`@evref-bl/plexus`](https:/
 - **As a command line**, with `plexus image create`, `start`, `stop` and the others, whose results are JSON, for your own scripts.
 - **As a library**, in a Node.js program of your own.
 
-You need Node.js and Pharo Launcher installed. The [README](https://github.com/Evref-BL/PLexus#readme) gives the versions, every command, and what each one answers.
+You need Node.js and Pharo Launcher installed. The [README](https://github.com/Evref-BL/PLexus#readme) gives the versions, and the [commands page](https://github.com/Evref-BL/PLexus/blob/main/docs/commands.md) every command and what each one answers.
 
 If you use Claude Code or Codex, you do not need to set PLexus up yourself: the next post presents [the pharo-agent plugin](/posts/pharo-agent-plugin/), which installs PLexus along with everything else in one step.
 
 ## Learn more
 
-- [PLexus on GitHub](https://github.com/Evref-BL/PLexus), with its README
+- [PLexus on GitHub](https://github.com/Evref-BL/PLexus), with its README and documentation
 - [pharo-launcher-mcp on GitHub](https://github.com/Evref-BL/pharo-launcher-mcp)
 - [Pharo Launcher](https://pharo-project.github.io/pharo-launcher/)
 - The first post of this series: [Pharo MCP](/posts/pharo-mcp/)
