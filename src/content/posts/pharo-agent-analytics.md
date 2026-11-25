@@ -34,7 +34,7 @@ flowchart LR
 
 A tool call leaves up to three spans: PLexus's span of the call it served, its span of the call it sent to the image, and the image's own. The analytics joins them into one **call**.
 
-A call **failed** when its span has an error status or names an error. One case needs care. OpenTelemetry's conventions for MCP say that a server should not mark a request it refused, such as one whose arguments do not fit the tool's schema, as an error on its span [@otel-genai-mcp]. For the server, the caller is at fault. For us, that is exactly where an agent struggled, so it counts as a failed call here.
+A call **failed** when the agent did not get what it asked for: its spans have an error status, or name an error type or a JSON-RPC error code. OpenTelemetry's conventions for MCP judge each span from its own side [@otel-genai-mcp]. A server that refuses a request, such as one whose arguments do not fit the tool's schema, did its job, so its span is not an error, while the client's span of the same call is. The analytics takes the agent's side, the client's, so a refused call is a failed call.
 
 A **session** is the calls of one agent's work, and ends after 30 minutes without a call. Calls are ordered within their session by when they started.
 
