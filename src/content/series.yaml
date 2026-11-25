@@ -2,3 +2,6 @@
 agentic-pharo:
   title: Agentic Pharo
   description: The three projects that let an AI agent work in live Pharo images, from the server inside an image to the plugin an agent host installs.
+agent-observability:
+  title: Observing agents in Pharo
+  description: Tooling anyone can use to see what AI agents do with the Pharo agent tools, from the OpenTelemetry spans the tools send to the analyses that read them.

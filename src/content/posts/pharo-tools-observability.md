@@ -5,6 +5,8 @@ date: 2026-11-24
 kind: project
 tags: [pharo, agentic, telemetry, pharo-mcp, plexus]
 authors: [gabriel-darbord]
+series: agent-observability
+part: 1
 ---
 
 When an AI agent works in Pharo through our tools, most of what happens is out of sight. The agent host shows the name of a tool and its answer, and little else. Which calls were slow? Which failed, and why? Did a call go through PLexus to the right image?
