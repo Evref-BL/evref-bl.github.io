@@ -89,4 +89,4 @@ npm install
 npm run dev
 ```
 
-The site is then at `http://localhost:4321`, and reloads as you edit. Open a pull request: its checks build the site, and merging it publishes the post.
+The site is then at `http://localhost:4321`, and reloads as you edit. Open a pull request: its checks build the site and follow every link in it, and merging it publishes the post.
