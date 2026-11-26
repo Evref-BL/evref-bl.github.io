@@ -107,7 +107,7 @@ The tools read the standard `OTEL_*` settings of OpenTelemetry. They send nothin
 
 ### With the pharo-agent plugin or PLexus
 
-Write the settings in PLexus's settings file, `~/.config/plexus/otel.env` (`%APPDATA%\plexus\otel.env` on Windows), then restart your agent host. For a backend on your machine:
+The [pharo-agent plugin](/posts/pharo-agent-plugin/) serves the Pharo tools to your agent host through PLexus, so both are set up the same way. Write the settings in PLexus's settings file, `~/.config/plexus/otel.env` (`%APPDATA%\plexus\otel.env` on Windows), then restart your agent host. For a backend on your machine:
 
 ```sh
 OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
@@ -140,7 +140,7 @@ Keep the backend, or a collector in front of it, on the same machine: an image l
 
 ### Collecting the spans of others
 
-To learn how agents use the tools beyond your own machine, you need the spans of other people, with their consent. [pharo-agent-telemetry](https://github.com/Evref-BL/pharo-agent-telemetry) is what anyone needs to run such a study. You write the study's data: which attributes it keeps, what it is for, who answers for it. From that data, it generates the filter of a small agent, the configuration of a collector, and the page participants read, so the three cannot disagree. Participants see what would be sent before they join, and join and leave with one command each. Joining installs the agent on their machine, which keeps only the attributes on the study's list before anything leaves it, and points the tools at it. The collector applies the same rules again.
+To learn how agents use the tools beyond your own machine, you need the spans of other people, with their consent. Not only for the tools we publish: Pharo MCP records a call to a tool you [define in your own image](https://github.com/Evref-BL/MCP/blob/main/docs/user/building-on-mcp.md) as it records a call to ours, so the same spans can show how agents use the tools of your own project, and where they struggle with them. [pharo-agent-telemetry](https://github.com/Evref-BL/pharo-agent-telemetry) is what anyone needs to run such a study. You write the study's data: which attributes it keeps, what it is for, who answers for it. From that data, it generates the filter of a small agent, the configuration of a collector, and the page participants read, so the three cannot disagree. Participants see what would be sent before they join, and join and leave with one command each. Joining installs the agent on their machine, which keeps only the attributes on the study's list before anything leaves it, and points the tools at it. The collector applies the same rules again.
 
 ## Read more
 
