@@ -140,12 +140,12 @@ Keep the backend, or a collector in front of it, on the same machine: an image l
 
 ### Collecting the spans of others
 
-To learn how agents use the tools beyond your own machine, [pharo-agent-telemetry](https://github.com/Evref-BL/pharo-agent-telemetry) runs an opt-in study around them. Participants see what would be sent before they join, and join and leave with one command each. Joining installs a small agent on their machine, which keeps only the attributes on the study's list before anything leaves it, and points the tools at it. The collector the agent sends to applies the same rules again. The agent's filter, the collector's configuration and the page participants read are all generated from the study's own data, so the three cannot disagree.
+To learn how agents use the tools beyond your own machine, you need the spans of other people, with their consent. [pharo-agent-telemetry](https://github.com/Evref-BL/pharo-agent-telemetry) is what anyone needs to host such an opt-in study of their own. You write the study's data: which attributes it keeps, what it is for, who answers for it. From that data, it generates the filter of a small agent, the configuration of a collector, and the page participants read, so the three cannot disagree. Participants see what would be sent before they join, and join and leave with one command each. Joining installs the agent on their machine, which keeps only the attributes on the study's list before anything leaves it, and points the tools at it. The collector applies the same rules again.
 
 ## Read more
 
 - [MCP's observability guide](https://github.com/Evref-BL/MCP/blob/main/docs/user/observability.md): every attribute and metric of an image, and how its settings are read.
 - [PLexus's observability guide](https://github.com/Evref-BL/PLexus/blob/main/docs/observability.md): every span of PLexus, and its settings.
-- [pharo-agent-telemetry](https://github.com/Evref-BL/pharo-agent-telemetry): an opt-in study of the tools, from the participants' commands to the collector.
+- [pharo-agent-telemetry](https://github.com/Evref-BL/pharo-agent-telemetry): what you need to host your own opt-in study of the tools, from the participants' commands to the collector.
 - [Generative AI Observability](https://github.com/open-telemetry/community/blob/5125996b5d159ff9aaa906f9a25226a821dc7bed/projects/gen-ai.md): the OpenTelemetry project.
 - [OpenTelemetry's conventions for MCP](https://github.com/open-telemetry/semantic-conventions-genai/blob/7cb940f24dea/docs/gen-ai/mcp.md).
