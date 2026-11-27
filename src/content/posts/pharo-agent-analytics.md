@@ -21,15 +21,15 @@ This post explains how it reads the agents' work, the research it builds on, and
 flowchart LR
   accTitle: From the tools' spans to a report
   spans["Spans<br/><i>any export of them</i>"] --> calls["Calls and sessions"]
-  calls --> log["Event log<br/><i>OCEL 2.0</i>"]
+  calls --> log["Event log<br/><i>OCEL 2.0, for process-mining tools</i>"]
   calls --> analyses["Analyses<br/><i>per agent host, release…</i>"]
   analyses --> report["Report<br/><i>static pages</i>"]
   classDef grey fill:#f5f5f5,stroke:#666666,color:#000
   classDef blue fill:#dae8fc,stroke:#6c8ebf,color:#000
   classDef green fill:#d5e8d4,stroke:#82b366,color:#000
   class spans grey
-  class calls,log,analyses blue
-  class report green
+  class calls,analyses blue
+  class log,report green
 ```
 
 A tool call leaves up to three spans: PLexus's span of the call it served, its span of the call it sent to the image, and the image's own. The analytics joins them into one **call**.
