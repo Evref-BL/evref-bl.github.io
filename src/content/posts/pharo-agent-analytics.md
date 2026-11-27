@@ -1,7 +1,7 @@
 ---
 title: Analytics for the Pharo agent tools, with process mining
 description: What pharo-agent-analytics makes of the tools' OpenTelemetry spans, an event log, analyses and Markov models of where agents struggle and how they recover, and how it keeps its numbers honest.
-date: 2026-11-25
+date: 2026-11-27
 kind: project
 tags: [pharo, agentic, telemetry]
 authors: [gabriel-darbord]
