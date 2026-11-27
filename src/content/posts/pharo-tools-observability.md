@@ -58,23 +58,23 @@ PLexus also records a span when it creates, starts, stops or deletes an image. A
 
 ### In a dashboard
 
-Any backend can count these attributes and draw them. Here they are in a [Kibana](https://www.elastic.co/kibana) dashboard, over one week of spans from a few of us at Berger-Levrault, working in Pharo with coding agents. Each call is counted once, from the span of the side that answered it.
+Any backend can count these attributes and draw them. Here they are in a [Kibana](https://www.elastic.co/kibana) dashboard, over one week of the sessions of a few of us at Berger-Levrault, working in Pharo with Claude Code. Each call is counted once, from the span of the side that answered it.
 
 The tool's name, how the call ended, how long it took and the size of its answer make a table of the tools. *Advertised* is whether the server lists the tool for the agent, rather than the agent having to search for it. The sizes here are rounded to a power of two:
 
-![Each tool: the tools by number of calls, evaluate first with 250, with the share of calls advertised, failed and cut to fit, the median and 95th percentile of their duration, and the median size of their answer](../../assets/posts/pharo-tools-observability/per-tool.png)
+![Each tool: the tools by number of calls, evaluate first with 206, with the share of calls advertised, failed and cut to fit, the median and 95th percentile of their duration, and the median size of their answer](../../assets/posts/pharo-tools-observability/per-tool.png)
 
 When a call fails, its span says how. Most failed calls here are *domain* errors: the tool refused what was asked, for example because a class does not exist. A span also names the class of the exception behind an error: the nearest class in Pharo's or MCP's own packages, so the classes of your own project stay out.
 
-![How calls failed in the images: by kind, 48 domain errors, 4 calls whose arguments broke the input schema and 2 exceptions that escaped the tool; by exception, MessageNotUnderstood first, 19 times, then MCPCommandError, MCPInvalidToolInput, OCUndeclaredVariableNotice and five more](../../assets/posts/pharo-tools-observability/failed-calls.png)
+![How calls failed in the images: by kind, 45 domain errors, 4 calls whose arguments broke the input schema and 2 exceptions that escaped the tool; by exception, MessageNotUnderstood first, 18 times, then MCPCommandError, MCPInvalidToolInput, OCUndeclaredVariableNotice and five more](../../assets/posts/pharo-tools-observability/failed-calls.png)
 
 The names of the arguments a tool does not take show where agents guess wrong:
 
-![Arguments a tool does not take: class_get called twice with class, and image_create, image_list, image_stop and method_get each once with an argument they do not have](../../assets/posts/pharo-tools-observability/unknown-arguments.png)
+![Arguments a tool does not take: class_get called twice with class, and image_stop and method_get each once with an argument they do not have](../../assets/posts/pharo-tools-observability/unknown-arguments.png)
 
 And since each span says which release of MCP or PLexus made it, and on which system, you see which releases are in use:
 
-![Sessions by version and by system: PLexus 0.22.0 in most sessions, then PLexus 0.24.0, MCP 4.4.0 and 4.6.0, and older releases; almost every session on macOS (darwin), one on Linux](../../assets/posts/pharo-tools-observability/versions-systems.png)
+![Sessions by version and by system: PLexus 0.22.0 in most sessions, then MCP 4.4.0, PLexus 0.24.0, and older releases; every session on macOS (darwin)](../../assets/posts/pharo-tools-observability/versions-systems.png)
 
 ## Built on OpenTelemetry's conventions for AI
 
