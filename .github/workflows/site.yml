@@ -27,11 +27,14 @@ jobs:
       - run: npm run build
       # Every link of the built site, the site's own addresses read from dist.
       # Pull requests only: a link that breaks elsewhere never holds a deploy.
+      # A busy server (429, 503) says nothing of the link: github.com answers
+      # so when it throttles the runner.
       - name: Check links
         if: github.event_name == 'pull_request'
         uses: lycheeverse/lychee-action@v2
         with:
           args: >-
+            --accept '100..=103,200..=299,429,503'
             --root-dir ${{ github.workspace }}/dist
             --remap '^https://evref-bl\.github\.io/ file://${{ github.workspace }}/dist/'
             'dist/**/*.html'
