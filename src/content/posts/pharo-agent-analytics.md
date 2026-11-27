@@ -118,7 +118,7 @@ pharo-agent-analytics uses everything the spans hold, and says what they lack. I
 
 ## Sharing a report
 
-The report holds counts and rates, never a single call. When other people read it, it should not point at any one person either: `build --min-sessions k` hides anything that fewer than k sessions share, such as an agent host or a release that only one person uses, a sequence of calls, an argument name or an error message. [Clio](https://www.anthropic.com/research/clio), Anthropic's system for studying how people use its assistant, follows the same rule: it keeps a group only when enough accounts and conversations are in it [@tamkin2024]. The default, 1, shows everything, for people who read their own spans.
+The report holds counts and rates, never a single call. It can also avoid pointing at any one person: `build --min-sessions k` hides anything that fewer than k sessions share, such as an agent host or a release that only one person uses, a sequence of calls, an argument name or an error message. [Clio](https://www.anthropic.com/research/clio), Anthropic's system for studying how people use its assistant, follows the same rule: it keeps a group only when enough accounts and conversations are in it [@tamkin2024]. The default, 1, hides nothing.
 
 ## Trying it
 
