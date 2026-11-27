@@ -58,7 +58,7 @@ PLexus also records a span when it creates, starts, stops or deletes an image. A
 
 ### In a dashboard
 
-Any backend can count these attributes and draw them. Here they are in a [Kibana](https://www.elastic.co/kibana) dashboard, over one week of the sessions of a few of us at Berger-Levrault, working in Pharo with Claude Code. Each call is counted once, from the span of the side that answered it.
+Any backend can count these attributes and draw them. Here they are in a [Kibana](https://www.elastic.co/kibana) dashboard, over one week of the sessions of a few of us at Berger-Levrault, working in Pharo with Claude Code. Each call is counted once, even when it went through PLexus to an image.
 
 The tool's name, how the call ended, how long it took and the size of its answer make a table of the tools. *Advertised* is whether the server lists the tool for the agent, rather than the agent having to search for it. The sizes here are rounded to a power of two:
 
