@@ -70,6 +70,14 @@ Each analysis is made for all calls, and again for each agent host, each release
 - **How the work flows.** A process map of which call follows which; the most common whole sessions; pairs of calls that follow each other more often than chance would explain, which may show that a tool or a richer answer is missing; and the path from compiling a method to passing tests.
 - **Where the time goes.** The time a tool takes, compared with the time the agent takes after the tool's answer, and the calls that the model asked for together, in one answer.
 
+The figures in this post come from the report on the spans of a few of us at Berger-Levrault, over one week: 1,041 calls in 43 sessions. The process map follows the calls from the start of a session to its end. Agents call `evaluate` the most, often many times in a row, and they compile methods in long runs too:
+
+![The process map: each box is a tool, with its calls and the share that failed, and each arrow a call that followed another, with how many times; the 14 most used of 27 tools, with evaluate called 250 times](../../assets/posts/pharo-agent-analytics/process-map.png)
+
+After a failure, the report follows each failed call to what the agent did next, then to whether the tool worked later in the session. Of the 106 failed calls, the tool worked later for 77:
+
+![From failure to outcome: the 106 failed calls by kind of error, then what the agent did next, most often the same call again, another tool, or the same tool with other arguments, then whether the tool worked later, 77 times, or never again, 29 times](../../assets/posts/pharo-agent-analytics/recovery.png)
+
 ## Markov models
 
 A process map counts which call follows which. It is a first-order [Markov chain](https://en.wikipedia.org/wiki/Markov_chain): it assumes that the next call depends only on the call just before. pharo-agent-analytics says so, and tests that assumption:
@@ -77,6 +85,10 @@ A process map counts which call follows which. It is a first-order [Markov chain
 - **How far back the next call looks.** Chains that look back 0 to 3 calls, compared with the usual statistical criteria (likelihood ratio, [AIC](https://en.wikipedia.org/wiki/Akaike_information_criterion), [BIC](https://en.wikipedia.org/wiki/Bayesian_information_criterion)) and by how well each one predicts sessions it has not seen, as Singer et al. did for people browsing the web [@singer2014].
 - **After a failure.** A chain over each tool and whether it worked or failed, which stops when the tool works or when the session ends. It gives the chance that a failed tool works before the session ends, and how many calls that takes [@grinstead1997, ch. 11]. Compared with what really happened, it shows when more than the last call matters.
 - **Phases.** A [hidden Markov model](https://en.wikipedia.org/wiki/Hidden_Markov_model) finds phases in the sessions from the tools called, between 1 and 6 of them [@rabiner1989]. BIC and sessions kept apart for testing choose how many [@celeux2008]. The spans do not name the phases: the report shows which tools each phase uses, and when it comes in a session.
+
+On these sessions, BIC chooses three phases and the sessions kept apart choose four, so the report warns that the fourth may not hold on more sessions. Named from their tools, the four phases still read clearly: one manages the images, one reads code, one runs code with `evaluate` and tests, and one compiles methods.
+
+![The phases of a session: where each of four phases comes in a session, the chance that each phase follows another, and the tools of each phase, under a warning that the data are few](../../assets/posts/pharo-agent-analytics/phases.png)
 
 ## Keeping the numbers honest
 
@@ -88,6 +100,10 @@ A number here shows where to look; it does not decide anything. The spans say wh
 - **The same mix.** When one agent host used a release more than the others, the release is compared as it is, and again as if every release had been used by the same mix of agent hosts.
 - **A second number.** Better descriptions of MCP tools raised task success by a median of 5.85 points, but took 67% more steps [@hasan2026]. A success rate alone would have hidden that cost, so each number comes with another one that would show if it is being gamed. Mixing easy and hard tasks also misleads: longer runs seem to fail more, but the opposite is true once the difficulty of the task is taken into account [@mehtiyev2026].
 - **Saying when the data are too few.** A view warns when its shares rest on fewer than 39 observations: below that, a 95% Wilson interval around one half is more than 15 points wide on each side. It also warns when the criteria that choose a model disagree. The report marks each view that has a warning, and its sidebar can hide those views.
+
+On these sessions, the funnel plot shows only two tools that fail more often than chance would explain: `image_delete` and `evaluate`. A tool that failed in two of the three sessions that used it stays inside the funnel: three sessions are too few to tell.
+
+![Failure against use: each tool as a dot, the sessions that used it against the share in which it failed, inside a funnel that narrows as use grows; image_delete and evaluate are above it](../../assets/posts/pharo-agent-analytics/tools.png)
 
 ## As much as the spans hold
 
