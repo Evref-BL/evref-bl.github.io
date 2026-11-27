@@ -32,9 +32,9 @@ flowchart LR
   class log,report green
 ```
 
-One tool call can leave up to three spans: two from PLexus, for the call it received and the call it sent on to the image, and one from the image. pharo-agent-analytics joins them into one **call**.
+One tool call leaves up to three spans, as the [previous post](/posts/pharo-tools-observability/#what-the-tools-record) shows. pharo-agent-analytics joins them into one **call**.
 
-A call **failed** when the agent did not get what it asked for: one of its spans has an error status, an error type or a JSON-RPC error code. OpenTelemetry's conventions for MCP judge each span from its own side [@otel-genai-mcp]. When a server refuses a request, for example because its arguments do not match the tool's schema, the server did its job: its span is not an error, but the client's span of the same call is. pharo-agent-analytics takes the agent's side, so a refused call counts as a failed call.
+A call **failed** when the agent did not get what it asked for. A server does not count a request it refused as its own error, as the [conventions for MCP](/posts/pharo-tools-observability/#what-our-tools-follow) ask [@otel-genai-mcp], but pharo-agent-analytics takes the agent's side: a refused call counts as a failed call.
 
 A **session** is the calls of one agent's work. It ends after 30 minutes without a call. Inside a session, the calls are ordered by the time they started.
 
